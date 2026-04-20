@@ -1,0 +1,92 @@
+.page {
+    background-color: #f8fafc;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+.header {
+    background-color: #008767;
+    color: white;
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.voltarBtn {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border: 1px solid white;
+    padding: 5px 15px;
+    border-radius: 20px;
+}
+
+.voltarBtn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.content {
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.cardInfo {
+    background: white;
+    width: 100%;
+    max-width: 600px;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.nome {
+    color: #008767;
+    margin-top: 0;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 15px;
+}
+
+.infoGroup {
+    margin-bottom: 15px;
+}
+
+.infoGroup strong {
+    color: #333;
+}
+
+.infoGroup p {
+    color: #666;
+    margin: 5px 0 0 0;
+}
+
+.statusSection {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #f1f5f9;
+}
+
+.statusOk {
+    display: inline-block;
+    background-color: #d1fae5;
+    color: #065f46;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.statusOff {
+    display: inline-block;
+    background-color: #fee2e2;
+    color: #991b1b;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.local {
+    color: #475569;
+}
