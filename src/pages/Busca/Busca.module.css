@@ -40,6 +40,8 @@
     display: flex;
     align-items: center;
     gap: 15px;
+    width: 100%; 
+    box-sizing: border-box;
 }
 
 .searchBarInputGroup {
@@ -49,6 +51,7 @@
     background-color: rgba(255, 255, 255, 0.1); 
     border-radius: 20px;
     padding: 8px 15px;
+    min-width: 0; 
 }
 
 .searchIconWrapper {
@@ -79,6 +82,7 @@
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.2s;
+    flex-shrink: 0; 
 }
 
 .searchButton:hover {
@@ -218,4 +222,23 @@
 
 .detailsButton:hover {
     background-color: #006b53;
+}
+
+@media (max-width: 600px) {
+    .buscaHeader {
+        padding: 20px 15px; /* Diminui as bordas laterais gigantes no celular */
+    }
+    
+    .searchBarContainer {
+        flex-direction: column; /* Coloca o botão embaixo da barra de pesquisa */
+        gap: 10px;
+    }
+    
+    .searchBarInputGroup {
+        width: 100%;
+    }
+    
+    .searchButton {
+        width: 100%; /* Faz o botão ocupar a largura toda para ficar fácil de clicar */
+    }
 }
