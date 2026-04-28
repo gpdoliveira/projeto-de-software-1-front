@@ -226,11 +226,11 @@
 
 @media (max-width: 600px) {
     .buscaHeader {
-        padding: 20px 15px; /* Diminui as bordas laterais gigantes no celular */
+        padding: 20px 15px; 
     }
     
     .searchBarContainer {
-        flex-direction: column; /* Coloca o botão embaixo da barra de pesquisa */
+        flex-direction: column;
         gap: 10px;
     }
     
@@ -239,6 +239,6 @@
     }
     
     .searchButton {
-        width: 100%; /* Faz o botão ocupar a largura toda para ficar fácil de clicar */
+        width: 100%;
     }
 }
