@@ -6,6 +6,10 @@ export const medicamentos = [
     apresentacao: "Comprimido",
     disponivel: true,
     unidadeSaude: "UBS Centro",
+    localizacao: {
+      lat: -29.6849, 
+      lng: -53.8046  
+    },
     descricao: "Indicado para o alívio temporário da febre e de dores de leve a moderada intensidade."
   },
   {
@@ -15,6 +19,10 @@ export const medicamentos = [
     apresentacao: "Comprimido",
     disponivel: true,
     unidadeSaude: "Posto de Saúde Bairro Sul",
+    localizacao: {
+      lat: -29.6849, 
+      lng: -53.8046  
+    },
     descricao: "Medicamento analgésico e antitérmico."
   },
   {
@@ -24,6 +32,10 @@ export const medicamentos = [
     apresentacao: "Cápsula",
     disponivel: false,
     unidadeSaude: "Sem estoque no momento",
+    localizacao: {
+      lat: -29.6849, 
+      lng: -53.8046  
+    },
     descricao: "Antibiótico utilizado no tratamento de diversas infecções bacterianas. Exige receita médica."
   },
   {
@@ -33,6 +45,10 @@ export const medicamentos = [
     apresentacao: "Comprimido",
     disponivel: true,
     unidadeSaude: "UBS Norte, UBS Centro",
+    localizacao: {
+      lat: -29.6849, 
+      lng: -53.8046  
+    },
     descricao: "Indicado para tratar a hipertensão (pressão alta)."
   }
 ];
