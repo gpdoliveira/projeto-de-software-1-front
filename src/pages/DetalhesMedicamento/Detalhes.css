@@ -1,0 +1,44 @@
+.page { max-width: 420px; margin: 0 auto; min-height: 100vh; background: var(--gray-50); display: flex; flex-direction: column; }
+
+.header { background: var(--green-500); padding: 52px 20px 28px; position: relative; }
+.back-btn { display: inline-flex; align-items: center; gap: 4px; color: rgba(255,255,255,.8); font-size: 13px; font-weight: 500; background: none; border: none; cursor: pointer; padding: 0; margin-bottom: 20px; font-family: var(--font-body); }
+.back-btn svg { width: 16px; height: 16px; }
+.med-icon { width: 56px; height: 56px; background: rgba(255,255,255,.18); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+.med-icon svg { width: 30px; height: 30px; }
+.header-name { font-family: var(--font-display); font-weight: 800; font-size: 26px; color: var(--white); line-height: 1.1; }
+.header-sub { font-size: 14px; color: rgba(255,255,255,.7); margin-top: 4px; }
+
+.info-card { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--green-200); margin: -16px 16px 0; padding: 16px; position: relative; z-index: 1; animation: slideUp .35s ease both; animation-delay: .05s; }
+.info-row { padding: 10px 0; border-bottom: 1px solid var(--green-100); }
+.info-row:last-child { border-bottom: none; padding-bottom: 0; }
+.info-row:first-child { padding-top: 0; }
+.info-label { font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--gray-300); margin-bottom: 3px; }
+.info-value { font-size: 15px; font-weight: 600; color: var(--green-600); }
+.info-desc { font-size: 14px; color: var(--gray-500); line-height: 1.55; }
+
+.section-label { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--green-500); padding: 20px 16px 8px; }
+
+.map-block { margin: 0 16px; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--green-200); background: #dce8dc; height: 180px; position: relative; animation: slideUp .35s ease both; animation-delay: .12s; }
+
+.pharmacy-photo { margin: 12px 16px 0; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--green-200); height: 150px; position: relative; background: #c8d8c8; animation: slideUp .35s ease both; animation-delay: .18s; }
+.pharmacy-photo svg { width: 100%; height: 100%; }
+.photo-label { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(27, 94, 32, .82); padding: 8px 12px; display: flex; align-items: center; gap: 6px; }
+.photo-label svg { width: 14px; height: 14px; flex-shrink: 0; }
+.photo-label-text { font-size: 12px; font-weight: 600; color: var(--white); }
+.photo-label-addr { font-size: 11px; color: rgba(255,255,255,.75); }
+
+.address-card { margin: 12px 16px 0; background: var(--green-100); border-radius: var(--radius-md); padding: 12px 14px; display: flex; align-items: center; gap: 12px; animation: slideUp .35s ease both; animation-delay: .23s; }
+.address-icon { width: 40px; height: 40px; background: var(--green-500); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.address-icon svg { width: 20px; height: 20px; }
+.address-name { font-size: 14px; font-weight: 700; color: var(--green-600); }
+.address-info { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
+.open-badge { margin-left: auto; background: var(--green-500); color: var(--white); font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 8px; flex-shrink: 0; }
+
+.cta-wrap { padding: 16px 16px 36px; animation: slideUp .35s ease both; animation-delay: .28s; }
+.cta-btn { display: block; width: 100%; background: var(--green-500); color: var(--white); font-family: var(--font-display); font-weight: 800; font-size: 16px; text-align: center; padding: 16px; border-radius: var(--radius-md); border: none; cursor: pointer; letter-spacing: .02em; transition: background .15s; }
+.cta-btn:active { background: var(--green-600); }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
