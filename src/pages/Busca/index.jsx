@@ -8,14 +8,20 @@ function BuscaPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch('https://trab-proj-softw-1-backend.onrender.com/medications/api/')
+    // acordar o render
+    fetch('https://trab-proj-softw-1-backend.onrender.com/ping/')
+      .then(response => {
+        if (!response.ok) throw new Error('Falha no ping');
+        // quando acordar, busca os medicamentos
+        return fetch('https://trab-proj-softw-1-backend.onrender.com/medications/api/');
+      })
       .then(response => response.json())
       .then(data => {
         setMedicamentos(data);
         setIsLoading(false);
       })
       .catch(error => {
-        console.error("Erro ao buscar medicamentos da API:", error);
+        console.error("Erro ao comunicar com a API:", error);
         setIsLoading(false);
       });
   }, []);
@@ -27,6 +33,7 @@ function BuscaPage() {
   const resultados = useMemo(() => {
     return medicamentos.filter(med => {
       const termo = searchTerm.toLowerCase().trim();
+      
       const nomeMed = med.name || '';
       const principioAtivo = med.generic_name || '';
 
@@ -68,34 +75,48 @@ function BuscaPage() {
             value={searchTerm}
             onChange={handleInputChange}
             autoComplete="off"
+            disabled={isLoading} 
           />
         </div>
       </div>
 
-      <div className="results-meta">
-        <span className="results-count">
-          <strong>{isLoading ? '...' : resultados.length}</strong> medicamento{resultados.length !== 1 ? 's' : ''} encontrado{resultados.length !== 1 ? 's' : ''}
-        </span>
-        <button className="sort-btn">
-          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
-            <line x1="1" y1="4" x2="13" y2="4"/>
-            <line x1="3" y1="7" x2="11" y2="7"/>
-            <line x1="5" y1="10" x2="9" y2="10"/>
+      {isLoading ? (
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '0 20px', textAlign: 'center' }}>
+          <style>
+            {`
+              @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+              }
+            `}
+          </style>
+          
+          <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="var(--green-500)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ animation: 'spin 1s linear infinite', marginBottom: '16px' }}>
+            <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
           </svg>
-          Ordenar
-        </button>
-      </div>
-
-      <div className="results-list">
-        {isLoading ? (
-          <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--green-500)' }}>
-            <strong>Conectando...</strong>
-            <p style={{ fontSize: '13px', color: 'var(--gray-500)', marginTop: '6px' }}>
-              O primeiro carregamento pode levar alguns segundos.
-            </p>
+          
+          <h2 style={{ color: 'var(--green-600)', fontSize: '18px', marginBottom: '8px' }}>Carregando...</h2>
+          <p style={{ color: 'var(--gray-500)', fontSize: '14px', lineHeight: '1.5', maxWidth: '300px' }}>
+            O primeiro acesso pode levar alguns segundos.
+          </p>
+        </div>
+      ) : (
+        <>
+          <div className="results-meta">
+            <span className="results-count">
+              <strong>{resultados.length}</strong> medicamento{resultados.length !== 1 ? 's' : ''} encontrado{resultados.length !== 1 ? 's' : ''}
+            </span>
+            <button className="sort-btn">
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+                <line x1="1" y1="4" x2="13" y2="4"/>
+                <line x1="3" y1="7" x2="11" y2="7"/>
+                <line x1="5" y1="10" x2="9" y2="10"/>
+              </svg>
+              Ordenar
+            </button>
           </div>
-        ) : (
-          <>
+
+          <div className="results-list">
             {resultados.length > 0 ? (
               resultados.map((med) => (
                 <Link 
@@ -128,9 +149,9 @@ function BuscaPage() {
                 Nenhum medicamento encontrado para esta busca.
               </div>
             )}
-          </>
-        )}
-      </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
