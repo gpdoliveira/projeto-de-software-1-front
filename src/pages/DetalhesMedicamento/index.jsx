@@ -1,12 +1,11 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './Detalhes.css';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
-
 
 let DefaultIcon = L.icon({
     iconUrl: icon,
@@ -18,10 +17,43 @@ L.Marker.prototype.options.icon = DefaultIcon;
 
 function DetalhesPage() {
   const navigate = useNavigate();
-  //const { id } = useParams();
-  
-  // coordenadas de sm
+  const { id } = useParams();
+
+  const [medicamento, setMedicamento] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(`https://trab-proj-softw-1-backend.onrender.com/medications/api/${id}/`)
+      .then(response => response.json())
+      .then(data => {
+        setMedicamento(data);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.error("Erro ao buscar detalhes:", error);
+        setIsLoading(false);
+      });
+  }, [id]);
+
   const posicaoFarmacia = [-29.6842, -53.8069];
+
+  if (isLoading) {
+    return (
+      <div className="page" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', flexDirection: 'column' }}>
+         <strong style={{ color: 'var(--green-500)', fontSize: '18px' }}>Carregando informações...</strong>
+         <p style={{ fontSize: '13px', color: 'var(--gray-500)', marginTop: '8px' }}>Conectando ao banco de dados.</p>
+      </div>
+    );
+  }
+
+  if (!medicamento) {
+    return (
+      <div className="page" style={{ padding: '40px', textAlign: 'center' }}>
+        <strong>Medicamento não encontrado.</strong>
+        <button onClick={() => navigate(-1)} style={{ marginTop: '20px', padding: '10px 20px', background: 'var(--green-500)', color: 'white', border: 'none', borderRadius: '8px' }}>Voltar</button>
+      </div>
+    );
+  }
 
   return (
     <div className="page">
@@ -42,8 +74,8 @@ function DetalhesPage() {
           </div>
           
           <div>
-            <div className="header-name">Paracetamol</div>
-            <div className="header-sub" style={{ marginTop: '2px' }}>500mg · comprimido · 20 unidades</div>
+            <div className="header-name">{medicamento.name}</div>
+            <div className="header-sub" style={{ marginTop: '2px' }}>{medicamento.concentration || 'Concentração não informada'}</div>
           </div>
         </div>
       </div>
@@ -51,15 +83,15 @@ function DetalhesPage() {
       <div className="info-card">
         <div className="info-row">
           <div className="info-label">Princípio ativo</div>
-          <div className="info-value">Acetaminofeno</div>
+          <div className="info-value">{medicamento.generic_name || 'Não informado'}</div>
         </div>
         <div className="info-row">
-          <div className="info-label">Dosagem</div>
-          <div className="info-value">500mg · uso adulto</div>
+          <div className="info-label">Concentração</div>
+          <div className="info-value">{medicamento.concentration || 'Não informada'}</div>
         </div>
         <div className="info-row">
           <div className="info-label">Descrição</div>
-          <div className="info-desc">Analgésico e antitérmico indicado para dores leves a moderadas e estados febris.</div>
+          <div className="info-desc">{medicamento.description || 'Sem descrição.'}</div>
         </div>
       </div>
 

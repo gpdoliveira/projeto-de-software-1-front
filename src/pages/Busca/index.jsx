@@ -1,10 +1,24 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Busca.css';
-import { medicamentos } from '../../data/mockMedicamentos';
 
 function BuscaPage() {
   const [searchTerm, setSearchTerm] = useState('');
+  const [medicamentos, setMedicamentos] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('https://trab-proj-softw-1-backend.onrender.com/medications/api/')
+      .then(response => response.json())
+      .then(data => {
+        setMedicamentos(data);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.error("Erro ao buscar medicamentos da API:", error);
+        setIsLoading(false);
+      });
+  }, []);
 
   const handleInputChange = (e) => {
     setSearchTerm(e.target.value);
@@ -13,16 +27,17 @@ function BuscaPage() {
   const resultados = useMemo(() => {
     return medicamentos.filter(med => {
       const termo = searchTerm.toLowerCase().trim();
-      
+      const nomeMed = med.name || '';
+      const principioAtivo = med.generic_name || '';
+
       return !termo || 
-             med.nome.toLowerCase().includes(termo) || 
-             (med.principioAtivo && med.principioAtivo.toLowerCase().includes(termo));
+             nomeMed.toLowerCase().includes(termo) || 
+             principioAtivo.toLowerCase().includes(termo);
     });
-  }, [searchTerm]);
+  }, [searchTerm, medicamentos]);
 
   return (
     <div className="page">
-      {/* HEADER */}
       <div className="header">
         <div className="header-top">
           <div className="brand">
@@ -58,7 +73,9 @@ function BuscaPage() {
       </div>
 
       <div className="results-meta">
-        <span className="results-count"><strong>{resultados.length}</strong> medicamento{resultados.length !== 1 ? 's' : ''} encontrado{resultados.length !== 1 ? 's' : ''}</span>
+        <span className="results-count">
+          <strong>{isLoading ? '...' : resultados.length}</strong> medicamento{resultados.length !== 1 ? 's' : ''} encontrado{resultados.length !== 1 ? 's' : ''}
+        </span>
         <button className="sort-btn">
           <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
             <line x1="1" y1="4" x2="13" y2="4"/>
@@ -70,37 +87,48 @@ function BuscaPage() {
       </div>
 
       <div className="results-list">
-        {resultados.map((med) => (
-          <Link 
-            key={med.id}
-            to={med.disponivel ? `/medicamento/${med.id}` : '#'} 
-            className={`med-card ${!med.disponivel ? 'unavailable' : ''}`}
-          >
-            <div className={`med-icon-wrap ${!med.disponivel ? 'unavail' : ''}`}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/>
-                <path d="m8.5 8.5 7 7"/>
-              </svg>
-            </div>
-            <div className="med-info">
-              <div className="med-name" style={!med.disponivel ? { color: 'var(--gray-300)' } : {}}>
-                {med.nome}
-              </div>
-              <div className="med-sub">{med.principioAtivo} {med.categoria ? `· ${med.categoria}` : ''}</div>
-            </div>
-            {med.preco && <span className="med-price">R$ {med.preco}</span>}
-            {med.disponivel && (
-              <svg className="chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                <path d="M6 4l4 4-4 4"/>
-              </svg>
-            )}
-          </Link>
-        ))}
-
-        {resultados.length === 0 && (
-          <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--gray-500)' }}>
-            Nenhum medicamento encontrado para esta busca.
+        {isLoading ? (
+          <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--green-500)' }}>
+            <strong>Conectando...</strong>
+            <p style={{ fontSize: '13px', color: 'var(--gray-500)', marginTop: '6px' }}>
+              O primeiro carregamento pode levar alguns segundos.
+            </p>
           </div>
+        ) : (
+          <>
+            {resultados.length > 0 ? (
+              resultados.map((med) => (
+                <Link 
+                  key={med.id}
+                  to={`/medicamento/${med.id}`} 
+                  className="med-card"
+                >
+                  <div className="med-icon-wrap">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/>
+                      <path d="m8.5 8.5 7 7"/>
+                    </svg>
+                  </div>
+                  <div className="med-info">
+                    <div className="med-name">
+                      {med.name}
+                    </div>
+                    <div className="med-sub">
+                      {med.generic_name || 'Princípio ativo não informado'} {med.concentration ? ` · ${med.concentration}` : ''}
+                    </div>
+                  </div>
+                  {med.preco && <span className="med-price">R$ {med.preco}</span>}
+                  <svg className="chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                    <path d="M6 4l4 4-4 4"/>
+                  </svg>
+                </Link>
+              ))
+            ) : (
+              <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--gray-500)' }}>
+                Nenhum medicamento encontrado para esta busca.
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
