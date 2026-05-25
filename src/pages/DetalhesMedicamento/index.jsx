@@ -234,9 +234,6 @@ function DetalhesPage() {
             <div className="photo-label" style={{ zIndex: 2 }}>
               <div>
                 <div className="photo-label-text">{farmaciaAtiva.name}</div>
-                <div className="photo-label-addr">
-                  {farmaciaAtiva.description ? 'Ver horário de atendimento' : 'Atendimento no local'}
-                </div>
               </div>
             </div>
           </div>
