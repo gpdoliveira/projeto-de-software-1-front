@@ -90,9 +90,9 @@ function BuscaPage() {
           <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="var(--green-500)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ animation: 'spin 1s linear infinite', marginBottom: '16px' }}>
             <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
           </svg>
-          <h2 style={{ color: 'var(--green-600)', fontSize: '18px', marginBottom: '8px' }}>Acordando o servidor...</h2>
+          <h2 style={{ color: 'var(--green-600)', fontSize: '18px', marginBottom: '8px' }}> Carregando...</h2>
           <p style={{ color: 'var(--gray-500)', fontSize: '14px', lineHeight: '1.5', maxWidth: '300px' }}>
-            O primeiro acesso pode levar alguns segundos. Obrigado por aguardar!
+            O primeiro acesso pode levar alguns segundos.
           </p>
         </div>
       ) : (
